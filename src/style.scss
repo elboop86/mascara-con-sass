@@ -1,0 +1,143 @@
+// Variables
+$fuente: 'Cormorant SC'; // Variable para la fuente
+$a: #6cc; // Variable para el color $a
+$b: #ffff; // Variable para el color $b
+
+// Mixins 
+@mixin contenedor() { // Mixin para estilos de contenedor
+    max-width: 1250px;
+    margin: auto auto;
+}
+
+@mixin flexbox($medidaJC: unset, $medidaAI: unset) { // Mixin para flexbox con parámetros opcionales
+    display: flex;
+    justify-content: $medidaJC;
+    align-items: $medidaAI;
+}
+
+@mixin laptopXL{ // Mixin para estilos específicos de pantalla grande
+    @media (max-width: 1200px) {
+        @content; // Permite incluir estilos adicionales
+    }
+}
+
+// Globales
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: $fuente; // Se aplica la fuente definida en todas partes
+    color: $b; // Se aplica el color $b a todos los elementos
+}
+
+body {
+    @include contenedor(); // Se aplica el mixin contenedor al cuerpo del documento
+    background: linear-gradient(11deg, rgba(0,0,0,1) 44%, rgba(51,100,102,1) 89%); // Fondo con gradiente lineal
+    height: 100vh; // Se establece la altura del cuerpo al 100% del viewport
+}
+
+a {
+    text-decoration: none; // Quita el subrayado de los enlaces
+    font-size: 25px; // Tamaño de fuente para los enlaces
+}
+
+.italic {
+    font-style: italic; // Estilo de fuente cursiva
+}
+
+.bold {
+    font-weight: 700; // Estilo de fuente negrita
+}
+
+// Generación dinámica de estilos para encabezados
+@for $i from 0 through 3 {
+    h#{$i + 1} {
+        font-size: 150px - ($i * 40); // Tamaño de fuente decreciente para cada encabezado
+    }
+}
+// Este código utiliza un bucle @for en Sass para generar estilos CSS para encabezados <h1> a <h4>.
+
+//@for $i from 0 through 3: Este bucle @for itera desde 0 hasta 3. $i es la variable de iteración que representa cada número en el rango especificado.
+
+//h#{$i + 1}: Dentro del bucle, se está generando un selector de CSS dinámico para los encabezados <h1> a <h4>. #{$i + 1} interpola el valor de $i + 1 
+//dentro del selector, generando así los selectores h1, h2, h3, y h4 en cada iteración.
+
+//font-size: 150px -($i*40);: Para cada encabezado generado, se establece dinámicamente un tamaño de fuente. La fórmula 150px -($i*40) calcula el tamaño 
+//de la fuente para cada encabezado. A medida que $i aumenta, el tamaño de la fuente se reduce, ya que se resta un múltiplo de 40px de 150px. Esto significa 
+//que el tamaño de la fuente para los encabezados h1 a h4 disminuirá a medida que aumente el nivel del encabezado.
+
+// Estilos para el encabezado
+header {
+    @include flexbox(space-between, center); // Estilo de flexbox para el encabezado
+    margin-top: 75px; // Margen superior del encabezado
+
+    h4 {
+        font-weight: 400; // Estilo de fuente para subtítulos
+    }
+
+    nav {
+        display: flex;
+        gap: 25px;
+
+        a:hover {
+            color: $a; // Cambio de color al pasar el ratón sobre los enlaces
+        }
+    }
+
+    .redes {
+        a {
+            @include flexbox(unset, center); // Estilo de flexbox para los enlaces de redes sociales
+        }
+
+        img {
+            width: 40px; // Ancho de las imágenes de redes sociales
+        }
+    }
+}
+
+// Estilos para la sección principal
+main {
+    @include flexbox(space-between, center); // Estilo de flexbox para la sección principal
+    margin-top: 90px; // Margen superior de la sección principal
+
+    h3 {
+        font-weight: 400; // Estilo de fuente para subtítulos
+    }
+
+    h4 {
+        width: 450px; // Ancho máximo para los subtítulos
+    } 
+
+    img {
+        width: 500px; // Ancho de las imágenes
+        margin-right: 55px; // Margen derecho de las imágenes
+    }
+}
+@include laptopXL() { // Estilos específicos para pantallas grandes
+        body {
+            text-align: center; // Centra el texto en el cuerpo del documento
+            height: auto; // Altura automática del cuerpo del documento
+        }
+
+        header {
+            flex-direction: column; // Cambia la dirección de los elementos del encabezado a columna
+            gap: 5px; // Espaciado entre elementos del encabezado
+
+            .redes a {
+                font-weight: 700; // Estilo de fuente para los enlaces de redes sociales
+                margin: 15px 25px 0px 0px; // Margen de los enlaces de redes sociales
+            }
+
+            h4 {
+                margin-bottom: 10px; // Margen inferior para subtítulos
+                font-size: 40px; // Tamaño de fuente para subtítulos
+            }
+        }
+
+        main {
+            margin-top: 70px; // Margen superior para la sección principal
+            flex-direction: column; // Cambia la dirección de los elementos de la sección principal a columna
+        }
+    }
+
+
